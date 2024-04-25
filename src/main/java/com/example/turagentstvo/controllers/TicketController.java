@@ -22,25 +22,25 @@ public class TicketController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Ticket getTicketById(long id) {
+    public Ticket getTicketById(@PathVariable long id) {
         return ticketService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Ticket addTicket(Ticket ticket) {
+    public Ticket addTicket(@RequestBody Ticket ticket) {
         return ticketService.addTicket(ticket);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delTicket(long id) {
+    public void delTicket(@PathVariable long id) {
         ticketService.deleteTicket(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Ticket updateTicket(long id, Ticket ticket) {
+    public Ticket updateTicket(@PathVariable long id, @RequestBody Ticket ticket) {
         return ticketService.updateTicket(id, ticket);
     }
 

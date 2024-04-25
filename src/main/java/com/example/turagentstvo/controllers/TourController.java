@@ -23,25 +23,25 @@ public class TourController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Tour getTourById(long id) {
+    public Tour getTourById(@PathVariable long id) {
         return tourService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Tour addTour(Tour tour) {
+    public Tour addTour(@RequestBody Tour tour) {
         return tourService.addTour(tour);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delTour(long id) {
+    public void delTour(@PathVariable long id) {
         tourService.deleteTour(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Tour updateTour(long id, Tour tour) {
+    public Tour updateTour(@PathVariable long id, @RequestBody Tour tour) {
         return tourService.updateTour(id, tour);
     }
 }

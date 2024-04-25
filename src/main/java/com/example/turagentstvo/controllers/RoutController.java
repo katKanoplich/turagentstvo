@@ -21,25 +21,25 @@ public class RoutController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Rout getRoutById(long id) {
+    public Rout getRoutById(@PathVariable long id) {
         return routService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Rout addRout(Rout rout) {
+    public Rout addRout(@RequestBody Rout rout) {
         return routService.addRout(rout);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delRout(long id) {
+    public void delRout(@PathVariable long id) {
         routService.deleteRout(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Rout updateRout(long id, Rout rout) {
+    public Rout updateRout(@PathVariable long id,@RequestBody Rout rout) {
         return routService.updateRout(id, rout);
     }
 }

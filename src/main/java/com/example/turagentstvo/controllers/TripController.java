@@ -21,25 +21,25 @@ public class TripController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Trip getTripById(long id) {
+    public Trip getTripById(@PathVariable long id) {
         return tripService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Trip addTrip(Trip trip) {
+    public Trip addTrip(@RequestBody Trip trip) {
         return tripService.addTrip(trip);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delTrip(long id) {
+    public void delTrip(@PathVariable long id) {
         tripService.deleteTrip(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Trip updateTrip(long id, Trip trip) {
+    public Trip updateTrip(@PathVariable long id,@RequestBody Trip trip) {
         return tripService.updateTrip(id, trip);
     }
     

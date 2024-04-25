@@ -20,25 +20,25 @@ public class SaleController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Sale getSaleById(long id) {
+    public Sale getSaleById(@PathVariable long id) {
         return saleService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Sale addSale(Sale sale) {
+    public Sale addSale(@RequestBody Sale sale) {
         return saleService.addSale(sale);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delSale(long id) {
+    public void delSale(@PathVariable long id) {
         saleService.deleteSale(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Sale updateSale(long id, Sale sale) {
+    public Sale updateSale(@PathVariable long id, @RequestBody Sale sale) {
         return saleService.updateSale(id, sale);
     }
 }

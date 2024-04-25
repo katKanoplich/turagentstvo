@@ -22,25 +22,25 @@ public class TransportController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Transport getTransportById(long id) {
+    public Transport getTransportById(@PathVariable long id) {
         return transportService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Transport addTransport(Transport transport) {
+    public Transport addTransport(@RequestBody Transport transport) {
         return transportService.addTransport(transport);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delTransport(long id) {
+    public void delTransport(@PathVariable long id) {
         transportService.deleteTransport(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Transport updateTransport(long id, Transport transport) {
+    public Transport updateTransport(@PathVariable long id,@RequestBody  Transport transport) {
         return transportService.updateTransport(id, transport);
     }
 }

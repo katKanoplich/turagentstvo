@@ -20,25 +20,25 @@ public class BasketController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Basket getBasketById(long id) {
+    public Basket getBasketById(@PathVariable long id) {
         return basketService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Basket addBasket(Basket basket) {
+    public Basket addBasket(@RequestBody Basket basket) {
         return basketService.addBasket(basket);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delBasket(long id) {
+    public void delBasket(@PathVariable long id) {
         basketService.deleteBasket(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Basket updateBasket(long id, Basket basket) {
+    public Basket updateBasket(@PathVariable long id, @RequestBody Basket basket) {
         return basketService.updateBasket(id, basket);
     }
 }
