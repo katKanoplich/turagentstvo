@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Basket")
+@RequestMapping("/basket")
 @RequiredArgsConstructor
 public class BasketController {
     private final BasketService basketService;

@@ -1,2 +1,6 @@
-package com.example.turagentstvo.entities;public class Role {
+package com.example.turagentstvo.entities;
+
+public enum Role {
+    ADMIN,
+    CLIENT
 }
