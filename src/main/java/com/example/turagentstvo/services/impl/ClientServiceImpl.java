@@ -16,6 +16,7 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findAll();
     }
     public Client addClient(Client client){
+
         clientRepository.save(client);
         return client;
     }

@@ -1,14 +1,9 @@
 package com.example.turagentstvo.Auth;
 
 import com.example.turagentstvo.config.JwtService;
-import com.example.turagentstvo.entities.Auth;
-import com.example.turagentstvo.entities.Basket;
-import com.example.turagentstvo.entities.Client;
-import com.example.turagentstvo.entities.Role;
+import com.example.turagentstvo.entities.*;
 import com.example.turagentstvo.exceptions.UserAuthenticationException;
-import com.example.turagentstvo.repositorys.AuthRepository;
-import com.example.turagentstvo.repositorys.BasketRepository;
-import com.example.turagentstvo.repositorys.ClientRepository;
+import com.example.turagentstvo.repositorys.*;
 import org.springframework.security.core.GrantedAuthority;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +20,8 @@ public class AuthenticationService {
     private final ClientRepository clientRepository;
     private final AuthRepository authRepository;
     private final BasketRepository basketRepository;
+    private final SaleRepository saleRepository;
+    private final AdminRepository adminRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -65,34 +62,36 @@ public class AuthenticationService {
                 .build();
     }
 
-//    public AuthenticationResponse registerTransporter(RegisterRequestTransporter request) {
-//
-//
-//        if (authRepository.findByLogin(request.getAuth().getLogin()) != null)
-//            throw new UserAuthenticationException("Поставшик с таким логином уже существует");
-//
-//        var userAuth = new Auth(
-//                request.getAuth().getLogin(),
-//                passwordEncoder.encode(request.getAuth().getPassword())
-//        );
-//        var transporter = Transporter.builder()
-//                .companyName(request.getCompanyName())
-//                .logo(request.getLogo())
-//                .phoneNumber(request.getPhoneNumber())
-//                .authentication(userAuth)
-//                .role(Role.TRANSPORTER)
-//                .build();
-//
-//        authRepository.save(userAuth);
-//        transporterRepository.save(transporter);
-//
-//        var jwtToken = jwtService.generateToken(transporter, transporter.getRole());
-//
-//        return AuthenticationResponse.builder()
-//                .token(jwtToken)
-//                .user(transporter)
-//                .build();
-//    }
+    public AuthenticationResponse registerAdmin(RegisterRequestAdmin request) {
+
+
+        if (authRepository.findByLogin(request.getAuth().getLogin()) != null)
+            throw new UserAuthenticationException("Поставшик с таким логином уже существует");
+
+        var userAuth = new Auth(
+                request.getAuth().getLogin(),
+                passwordEncoder.encode(request.getAuth().getPassword())
+        );
+        var baskets = basketRepository.findAll();
+        var sale = new Sale();
+        sale.setBaskets(baskets);
+        saleRepository.save(sale);
+        var admin = Admin.builder()
+                .sale(sale)
+                .authentication(userAuth)
+                .role(Role.ADMIN)
+                .build();
+
+        authRepository.save(userAuth);
+        adminRepository.save(admin);
+
+        var jwtToken = jwtService.generateToken(admin, admin.getRole());
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .user(admin)
+                .build();
+    }
 
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -117,6 +116,11 @@ public class AuthenticationService {
             if (role.equals("CLIENT")) {
                 jwtToken = jwtService.generateToken(userDetails, Role.CLIENT);
             } else if (role.equals("ADMIN")) {
+                var admins = adminRepository.findAll();
+                var baskets = basketRepository.findAll();
+                admins.forEach(admin -> {
+                    admin.getSale().setBaskets(baskets);
+                });
                 jwtToken = jwtService.generateToken(userDetails, Role.ADMIN);
             } else {
                 throw new UserAuthenticationException("Недопустимая роль пользователя: " + role);

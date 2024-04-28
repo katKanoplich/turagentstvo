@@ -16,9 +16,8 @@ import java.util.List;
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<Basket> baskets;
-
 }
